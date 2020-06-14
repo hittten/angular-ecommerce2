@@ -9,7 +9,9 @@ import {MaterialModule} from './material.module';
 import {ProductListComponent} from './product-list/product-list.component';
 import {ProductReactFormComponent} from './product-react-form/product-react-form.component';
 import {ProductAddComponent} from './product-add/product-add.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ProductTemplateFormComponent} from './product-template-form/product-template-form.component';
+import {PriceValidatorDirective} from '../app-price-validator.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     HeaderComponent,
     ProductListComponent,
     ProductReactFormComponent,
-    ProductAddComponent
+    ProductAddComponent,
+    ProductTemplateFormComponent,
+    PriceValidatorDirective,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +29,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
