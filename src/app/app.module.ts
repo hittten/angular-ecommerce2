@@ -12,6 +12,7 @@ import {ProductAddComponent} from './product-add/product-add.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProductTemplateFormComponent} from './product-template-form/product-template-form.component';
 import {PriceValidatorDirective} from '../app-price-validator.directive';
+import {StoreModule} from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {PriceValidatorDirective} from '../app-price-validator.directive';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent]
