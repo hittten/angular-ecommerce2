@@ -1,0 +1,64 @@
+<h1>Nuevo producto</h1>
+
+<form #form [formGroup]="productForm" (ngSubmit)="addProduct()">
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input required matInput formControlName="name" placeholder="Ej. producto #20">
+    <mat-error *ngIf="productForm.controls.name.hasError('required')">
+      <strong>Requerido</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Precio</mat-label>
+    <input required type="number" matInput formControlName="price" placeholder="20,12">
+    <mat-error *ngIf="productForm.controls.price.hasError('required')">
+      <strong>Requerido</strong>
+    </mat-error>
+    <mat-error *ngIf="productForm.controls.price.hasError('price')">
+      Mayor que <strong>{{productForm.controls.price.errors.price.qt}}</strong>
+    </mat-error>
+    <mat-error *ngIf="productForm.controls.price.hasError('priceIsNaN')">
+      Precio inválido
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Imagen</mat-label>
+    <input required matInput formControlName="image" placeholder="https://...">
+    <mat-error *ngIf="productForm.controls.image.hasError('required')">
+      <strong>Requerida</strong>
+    </mat-error>
+    <mat-error *ngIf="productForm.controls.image.hasError('pattern')">
+      La URL es <strong>inválida</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Descripción</mat-label>
+    <textarea required matInput formControlName="description" placeholder="Ej. Descripción del producto #20"></textarea>
+    <mat-error *ngIf="productForm.controls.description.hasError('required')">
+      <strong>Requerida</strong>
+    </mat-error>
+    <mat-error *ngIf="productForm.controls.description.hasError('minlength')">
+      Mínimo {{productForm.controls.description.errors.minlength.requiredLength}} caracteres
+    </mat-error>
+    <mat-error *ngIf="productForm.controls.description.hasError('maxlength')">
+      Máximo {{productForm.controls.description.errors.maxlength.requiredLength}} caracteres
+    </mat-error>
+  </mat-form-field>
+  <p>
+    <button mat-button color="primary" type="submit" [disabled]="!productForm.valid">Agregar</button>
+    <button mat-button type="reset">Limpiar</button>
+  </p>
+  <p><strong>Value: </strong>{{productForm.value | json}}</p>
+  <p><strong>Valid: </strong>{{productForm.status}}</p>
+  <p><strong>name errors:</strong> {{productForm.controls.name.errors | json}}</p>
+  <p><strong>price errors:</strong> {{productForm.controls.price.errors | json}}</p>
+  <p><strong>description errors:</strong> {{productForm.controls.description.errors | json}}</p>
+  <p><strong>image errors:</strong> {{productForm.controls.image.errors | json}}</p>
+</form>
+
+
+
+
+
+
+
