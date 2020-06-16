@@ -13,6 +13,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProductTemplateFormComponent} from './product-template-form/product-template-form.component';
 import {PriceValidatorDirective} from '../app-price-validator.directive';
 import {StoreModule} from '@ngrx/store';
+import {productReducer} from './store/product.reducer';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import {StoreModule} from '@ngrx/store';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({product: productReducer}),
   ],
   providers: [],
   bootstrap: [AppComponent]
