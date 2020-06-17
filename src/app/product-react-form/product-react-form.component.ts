@@ -1,15 +1,20 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {priceValidator} from '../../price-validator.directive';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ProductService} from '../product.service';
+import {select, Store} from '@ngrx/store';
+import {ProductState} from '../store/product.reducer';
+import {adding, addingSuccess} from '../store/product.actions';
+import {Observable, Subscription} from 'rxjs';
+import {ProductEffects} from '../store/product.effects';
+import {Actions, ofType} from '@ngrx/effects';
 
 @Component({
   selector: 'app-product-react-form',
   templateUrl: './product-react-form.component.html',
   styleUrls: ['./product-react-form.component.scss']
 })
-export class ProductReactFormComponent implements OnInit {
+export class ProductReactFormComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: ElementRef<HTMLFormElement>;
   productForm = this.fb.group({
     name: [null, Validators.required],
@@ -18,13 +23,27 @@ export class ProductReactFormComponent implements OnInit {
     image: [null, [Validators.required, Validators.pattern(/^https:\/\/[a-z-_./]/i)]],
   });
 
-  sending = false;
+  sending$: Observable<boolean>;
+
+  private subscriptions = new Subscription();
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private productService: ProductService
+    private store: Store<ProductState>,
+    private productEffects: ProductEffects,
+    private actions$: Actions,
   ) {
+    this.sending$ = this.store.pipe(select('adding'));
+    const subs = this.actions$.pipe(ofType(addingSuccess))
+      .subscribe(action => {
+        this.form.nativeElement.reset();
+        this.snackBar.open(action.product.name + ', se ha agregado', 'cerrar', {
+          duration: 3000,
+        });
+      });
+
+    this.subscriptions.add(subs);
   }
 
   ngOnInit(): void {
@@ -34,19 +53,11 @@ export class ProductReactFormComponent implements OnInit {
     if (!this.productForm.valid) {
       return;
     }
-    this.sending = true;
     const product = {...this.productForm.value};
-    this.productService.add(product)
-      .subscribe({
-        next: newProduct => {
-          this.form.nativeElement.reset();
-          this.snackBar.open(newProduct.name + ', se ha agregado', 'cerrar', {
-            duration: 3000,
-          });
-        },
-        complete: () => {
-          this.sending = false;
-        }
-      });
+    this.store.dispatch(adding({product}));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

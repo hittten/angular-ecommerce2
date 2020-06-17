@@ -3,7 +3,6 @@ import {Store, select} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {ProductState} from '../store/product.reducer';
 import * as productActions from '../store/product.actions';
-import {PRODUCTS} from '../../mock-products';
 
 @Component({
   selector: 'app-product-list',
@@ -21,9 +20,6 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.store.dispatch(productActions.listSuccess({products: PRODUCTS}));
-    }, 5000);
   }
 
 }

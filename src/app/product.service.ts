@@ -11,7 +11,7 @@ export class ProductService {
   constructor() { }
 
   list() {
-    return of(PRODUCTS).pipe(delay(1000));
+    return of([...PRODUCTS]).pipe(delay(1000));
   }
 
   add(product) {

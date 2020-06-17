@@ -14,6 +14,10 @@ import {ProductTemplateFormComponent} from './product-template-form/product-temp
 import {PriceValidatorDirective} from '../app-price-validator.directive';
 import {StoreModule} from '@ngrx/store';
 import {productReducer} from './store/product.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {ProductEffects} from './store/product.effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,8 @@ import {productReducer} from './store/product.reducer';
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forRoot({product: productReducer}),
+    EffectsModule.forRoot([ProductEffects]),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
   ],
   providers: [],
   bootstrap: [AppComponent]

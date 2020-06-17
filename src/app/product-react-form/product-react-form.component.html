@@ -45,7 +45,7 @@
     </mat-error>
   </mat-form-field>
   <p>
-    <button mat-button color="primary" type="submit" [disabled]="!productForm.valid || sending">Agregar</button>
+    <button mat-button color="primary" type="submit" [disabled]="!productForm.valid || (sending$ | async)">Agregar</button>
     <button mat-button type="reset">Limpiar</button>
   </p>
   <p><strong>Value: </strong>{{productForm.value | json}}</p>
