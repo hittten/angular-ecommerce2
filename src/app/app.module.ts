@@ -17,6 +17,8 @@ import {reducers} from './store';
 import {EffectsModule} from '@ngrx/effects';
 import {ProductEffects} from './store/product.effects';
 import {FormEffects} from './store/form.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import {FormEffects} from './store/form.effects';
     FormsModule,
     StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([ProductEffects, FormEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
