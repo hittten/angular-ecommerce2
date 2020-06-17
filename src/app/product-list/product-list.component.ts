@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PRODUCTS} from '../../mock-products';
+import {ProductService} from '../product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -7,9 +7,9 @@ import {PRODUCTS} from '../../mock-products';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  products = PRODUCTS;
+  $products = this.productService.list();
 
-  constructor() {
+  constructor(private productService: ProductService) {
   }
 
   ngOnInit(): void {

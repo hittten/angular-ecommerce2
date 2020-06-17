@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {priceValidator} from '../../price-validator.directive';
-import {PRODUCTS} from '../../mock-products';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {ProductService} from '../product.service';
 
 @Component({
   selector: 'app-product-react-form',
@@ -18,7 +18,13 @@ export class ProductReactFormComponent implements OnInit {
     image: [null, [Validators.required, Validators.pattern(/^https:\/\/[a-z-_./]/i)]],
   });
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
+  sending = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private productService: ProductService
+  ) {
   }
 
   ngOnInit(): void {
@@ -28,12 +34,19 @@ export class ProductReactFormComponent implements OnInit {
     if (!this.productForm.valid) {
       return;
     }
-    const newProduct = {...this.productForm.value};
-    PRODUCTS.unshift(newProduct);
-
-    this.form.nativeElement.reset();
-    this.snackBar.open(newProduct.name + ', se ha agregado', 'cerrar', {
-      duration: 3000,
-    });
+    this.sending = true;
+    const product = {...this.productForm.value};
+    this.productService.add(product)
+      .subscribe({
+        next: newProduct => {
+          this.form.nativeElement.reset();
+          this.snackBar.open(newProduct.name + ', se ha agregado', 'cerrar', {
+            duration: 3000,
+          });
+        },
+        complete: () => {
+          this.sending = false;
+        }
+      });
   }
 }

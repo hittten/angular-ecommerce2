@@ -1,21 +1,24 @@
 <div class="container">
-  <mat-card class="product" *ngFor="let product of products">
-    <mat-card-header>
-      <mat-card-title>{{product.name}}</mat-card-title>
-    </mat-card-header>
-    <img mat-card-image src="{{product.image}}" alt="{{product.name}}">
-    <mat-card-content>
-      <p>
-        {{product.description}}
-      </p>
-      <p>
-        {{product.price | currency: 'EUR'}}
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button color="primary">Add to shopping cart</button>
-    </mat-card-actions>
-  </mat-card>
+  <div *ngIf="$products | async as products; else loading">
+    <mat-card class="product" *ngFor="let product of products">
+      <mat-card-header>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image src="{{product.image}}" alt="{{product.name}}">
+      <mat-card-content>
+        <p>
+          {{product.description}}
+        </p>
+        <p>
+          {{product.price | currency: 'EUR'}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary">Add to shopping cart</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <ng-template #loading><mat-spinner></mat-spinner></ng-template>
 </div>
 <a routerLink="/products/add" class="add-button" mat-mini-fab color="primary">
   <mat-icon>add</mat-icon>
