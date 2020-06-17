@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from '../product.service';
+import {select, Store} from '@ngrx/store';
+import {AppState} from '../store';
+import {Observable} from 'rxjs';
+import {ProductState} from '../store/product.reducer';
+import {listLoading} from '../store/product.actions';
 
 @Component({
   selector: 'app-product-list',
@@ -7,9 +11,11 @@ import {ProductService} from '../product.service';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  $products = this.productService.list();
+  productStore$: Observable<ProductState>;
 
-  constructor(private productService: ProductService) {
+  constructor(private store: Store<AppState>) {
+    this.productStore$ = this.store.pipe(select('product'));
+    this.store.dispatch(listLoading());
   }
 
   ngOnInit(): void {
