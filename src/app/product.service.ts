@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
-import {PRODUCTS} from '../mock-products';
-import {of} from 'rxjs';
-import {delay} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {environment} from '../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Product} from '../product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+  }
 
   list() {
-    return of([...PRODUCTS]).pipe(delay(1000));
+    return this.http.get<Product[]>(environment.apiUrl + '/products/' + environment.user + '/');
   }
 
   add(product) {
-    PRODUCTS.unshift(product);
-    return of(product).pipe(delay(1000));
+    return this.http.post<Product>(environment.apiUrl + '/products/' + environment.user + '/', product);
   }
 }

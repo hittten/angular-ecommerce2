@@ -17,8 +17,10 @@ import {reducers} from './store';
 import {EffectsModule} from '@ngrx/effects';
 import {ProductEffects} from './store/product.effects';
 import {FormEffects} from './store/form.effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { environment } from '../environments/environment';
     FormsModule,
     StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([ProductEffects, FormEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    StoreRouterConnectingModule.forRoot(),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
