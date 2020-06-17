@@ -18,6 +18,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {ProductEffects} from './store/product.effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
+import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -36,9 +37,10 @@ import {environment} from '../environments/environment';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.forRoot({product: productReducer}),
+    StoreModule.forRoot({product: productReducer, router: routerReducer}),
     EffectsModule.forRoot([ProductEffects]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
